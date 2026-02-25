@@ -26,19 +26,22 @@ class FrameMonitorHandler(FileSystemEventHandler):
 
     def on_created(self, event):
         if event.is_directory \
-                or not event.src_path.endswith(".fits") \
+                or not event.src_path.endswith(".txt") \
                 or self.file_prefix not in os.path.basename(event.src_path):
             return
 
         time.sleep(self.PATIENCE)
 
         try:
-            with fits.open(event.src_path) as hdul:
+            fits_file = event.src_path.replace(".txt", ".fits")
+            if not os.path.exists(fits_file):
+                return
+            with fits.open(fits_file) as hdul:
                 exptime = float(hdul[0].header.get("EXPTIME", -1))
             if exptime <= 0:
                 return
 
-            tel_file = event.src_path.replace(".fits", ".txt")
+            tel_file = event.src_path
             if not os.path.exists(tel_file):
                 return
 

@@ -20,9 +20,8 @@ Plots in the Bokeh dashboard:
         beginning of the cube.
     - Recent Cubes
         Shows timing for frames in the most recent N cubes, with vertical
-        lines marking cube boundaries. This excludes the gap between cubes
-        (i.e. the inter-cube timing). A mismatch between the data from the
-        exposure time indicates dropped frames within the cube.
+        lines marking cube boundaries. This includes the gap between cubes
+        (i.e. the inter-cube timing).
     - Global Efficiency
         Shows the cumulative efficiency of the exposures over time. This
         includes all effects -- dropped frames within the cubes, dropped frames
