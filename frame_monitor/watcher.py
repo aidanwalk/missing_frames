@@ -6,6 +6,9 @@ from watchdog.events import FileSystemEventHandler
 import numpy as np
 
 
+SEARCH_INTERVAL = 0.2  # seconds to wait between checks for new files
+
+
 def read_telemetry(filepath, col=4):
     try:
         return np.genfromtxt(filepath, usecols=col, invalid_raise=False)
@@ -15,7 +18,7 @@ def read_telemetry(filepath, col=4):
 
 class FrameMonitorHandler(FileSystemEventHandler):
     # seconds to wait before processing a new file, to allow it to be fully written
-    PATIENCE = 0.5
+    PATIENCE = 0.1
 
     def __init__(self, data_queue, config):
         super().__init__()
@@ -71,7 +74,7 @@ def start_observer(data_queue, config):
     observer.start()
     try:
         while True:
-            time.sleep(1)
+            time.sleep(SEARCH_INTERVAL)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()

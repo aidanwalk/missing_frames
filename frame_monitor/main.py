@@ -48,6 +48,8 @@ from .processor import update
 
 # Parse arguments (passed via --args)
 CONFIG = parse_args(sys.argv[1:])
+CALLBACK_INTERVAL = 250  # milliseconds between Bokeh updates
+
 
 # Shared queue
 data_queue = queue.Queue()
@@ -134,7 +136,7 @@ curdoc().add_periodic_callback(
         source_cube_eff,
         p1, p2, p3, p4
     ),
-    400  
+    CALLBACK_INTERVAL  
 )
 
 # Start observer in background thread
