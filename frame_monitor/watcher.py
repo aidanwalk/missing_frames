@@ -6,7 +6,6 @@ from watchdog.events import FileSystemEventHandler
 import numpy as np
 
 
-SEARCH_INTERVAL = 0.2  # seconds to wait between checks for new files
 
 
 def read_telemetry(filepath, col=4):
@@ -72,9 +71,9 @@ def start_observer(data_queue, config):
     observer = Observer()
     observer.schedule(handler, path=config.data_dir, recursive=False)
     observer.start()
-    try:
+    try: # Keep the main thread alive
         while True:
-            time.sleep(SEARCH_INTERVAL)
+            time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
